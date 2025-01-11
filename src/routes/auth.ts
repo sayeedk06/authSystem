@@ -7,7 +7,7 @@ import {loginController, registrationController} from "../controllers/authContro
 
 
 
-router.get(apiRoutes.LOGIN, loginController)
+router.post(apiRoutes.LOGIN, loginController)
 router.post(apiRoutes.REGISTER, registrationController)
 
 export default router;

@@ -1,1 +1,1 @@
-export const registrationFormField = ["email", "password", "name", "address", "phone"]
+export const registrationFormField = ["email", "password", "name"]

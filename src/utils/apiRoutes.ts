@@ -12,6 +12,8 @@ const apiRoutes = {
     UPDATE_USER: "/{id}",
     DELETE_USER: "/{id}",
 
+
+    
     //groups
     GET_GROUPS: "/",
     GET_GROUP: "/{id}",
@@ -24,6 +26,7 @@ const apiRoutes = {
     CREATE_POLICY: "/create",
     EDIT_POLICY: "/edit",
 
+    
     //database
     SEEDER: "/seeding",
 }
