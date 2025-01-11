@@ -26,9 +26,12 @@ export const loginController = async (req: Request, res: Response) => {
         })
     } 
     //generate a jwt token
-    const token = jwt.sign()
+
+    const token = await jwt.sign({email}, SECRET_KEY, {expiresIn: '1h'});
+
     return res.status(201).json({
-        message: "Success"
+        message: "Success",
+        jwt_token: token
     })
     
 }
