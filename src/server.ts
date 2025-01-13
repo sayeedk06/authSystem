@@ -1,6 +1,7 @@
 import express from "express";
 import bodyParser from "body-parser";
-import authRoutes from "./routes/auth.js"
+import authRoutes from "./routes/auth.js";
+import userRoutes from "./routes/users.js";
 
 
 const app = express();
@@ -14,6 +15,7 @@ app.use(bodyParser.urlencoded({ extended: false }))// parse application/x-www-fo
 
 //routes
 app.use('/api/auth', authRoutes)//needs to be changed
+app.use('/api/user', userRoutes)
 
 app.listen(PORT, (err?: Error) => {
     if(!err)

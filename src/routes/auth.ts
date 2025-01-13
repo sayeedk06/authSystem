@@ -1,4 +1,4 @@
-import express from "express";
+import express, {Express} from "express";
 import apiRoutes from "../utils/apiRoutes.js";
 
 const router = express.Router();
@@ -9,5 +9,4 @@ import {loginController, registrationController} from "../controllers/authContro
 
 router.post(apiRoutes.LOGIN, loginController)
 router.post(apiRoutes.REGISTER, registrationController)
-
 export default router;
