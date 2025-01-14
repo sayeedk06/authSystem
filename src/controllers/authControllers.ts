@@ -6,14 +6,18 @@ import apiResponse from "../utils/apiResponseMsgs.js";
 import { registrationFormField } from "../utils/formFields.js";
 import {db} from "../db/index.js";
 import { usersTable} from "../db/schema.js";
+import apiResponseMsgs from "../utils/apiResponseMsgs.js";
 
 export const loginController = async (req: Request, res: Response): Promise<void> => {
     const email = req.body.email;
     const password = req.body.password;
+
+    console.log(process.env.DATABASE_URL)
     
     const user = await db.select().from(usersTable).where(eq(usersTable.email, email))
     if(!user) {
-        res.json({
+        res.status(401).json({
+            Message: apiResponseMsgs[400],
             error : "User not found"
         });
     }
@@ -22,12 +26,11 @@ export const loginController = async (req: Request, res: Response): Promise<void
     if(!isMatch) {
         res.json({
             message: apiResponse[400],
-            error: "Password doesn't match"
+            error: "Password doesn't match with the given user"
         })
     } 
     //generate a jwt token
-    const SECRET_KEY = "PAULINA"
-    const token = await jwt.sign({email}, SECRET_KEY, {expiresIn: '1h'});
+    const token = await jwt.sign({email}, process.env.JWT_TOKEN_KEY, {expiresIn: '1h'});
 
     res.status(201).json({
         message: "Success",

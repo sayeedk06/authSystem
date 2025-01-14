@@ -28,8 +28,8 @@ export const getGroupController = async (req: Request, res: Response):Promise<vo
     try {
         const group_id = Number(req.params.id);
         const group = await db.select().from(groupsTable).where(eq(groupsTable.id, group_id));
-        if(!group) {
-            console.log("Group id is invalid")
+        if(group?.length === 0) {
+            console.log("Group id is not found in the database")
             res.status(401).json({
                 message: apiResponseMsgs[400],
                 error: "Group id invalid. Please choose correct group id and try again"
@@ -64,7 +64,7 @@ export const createGroupController = async(req: Request , res: Response): Promis
                 error: "Policy name invalid. Please choose correct policy name"
             })
         }
-        console.log(isMatch)
+   
         const new_group = await db.insert(groupsTable).values({name: name}).returning()
         await db.insert(groupPoliciesTable).values(
             isMatch.map((policy) => ({
@@ -160,7 +160,7 @@ export const getAccessListConstroller = async(req: Request, res: Response): Prom
 
 //policy controllers start here
 
-export const getPolicyController = async(req: Request , res: Response): Promise<void> => {
+export const getPoliciesController = async(req: Request , res: Response): Promise<void> => {
 
     try{
         const policies = await db.select().from(policiesTable)
@@ -177,16 +177,43 @@ export const getPolicyController = async(req: Request , res: Response): Promise<
     }
 }
 
+export const getPolicyController = async (req: Request, res: Response):Promise<void> => {
+    try {
+        const policy_id = Number(req.params.id);
+        console.log(policy_id)
+        const policy = await db.select().from(policiesTable).where(eq(policiesTable.id, policy_id));
+        if(policy?.length === 0) {
+            console.log("Policy id is not found in the database")
+            res.status(401).json({
+                message: apiResponseMsgs[400],
+                error: "Policy id invalid. Please choose correct policy id and try again"
+            })
+        }
+        res.status(200).json({
+            message: apiResponseMsgs[200],
+            data: policy
+        })
+
+    }catch (error) {
+        console.log("Something went wrong with getting group with the given id", error)
+        res.status(500).json({
+            message: apiResponseMsgs[500],
+            error: "An unexpected error has occured while fetching group data. Please try again"
+        })
+    }
+}  
 export const createPolicyController = async(req: Request , res: Response): Promise<void> => {
 
     const name = req.body.name;
-    const access = req.body.access;
+    const access = req.body.access.split(',');
 
     console.log(access)
 
+
     try{
         const isMatch = await db.select().from(policiesTable).where(eq(name, policiesTable.name))
-        if (isMatch) {
+        console.log(isMatch)
+        if (isMatch?.length > 0) {
             console.log("Policy already exists in database")
             res.status(401).json({
                 message: apiResponseMsgs[400],
@@ -212,5 +239,58 @@ export const createPolicyController = async(req: Request , res: Response): Promi
     }
 }
 
+export const editPolicyController = async(req: Request, res:Response): Promise<void> => {
+    try {
+        const policy_id = Number(req.params.id);
+        const {...fields} = req.body
+        const isMatch = await db.select().from(groupsTable).where(eq(groupsTable.id, policy_id))
+        if(isMatch?.length === 0){
+            console.log("Group doesn't exist in the database")
+            res.status(401).json({
+                message: apiResponseMsgs[400],
+                error: "Group is invalid. Please select a valid group"
+            })
+        }
+        const edited_policy = await db.update(policiesTable).set(fields).where(eq(policiesTable.id, policy_id)).returning()
 
+        res.status(200).json({
+            message: apiResponseMsgs[200],
+            data: edited_policy
+        })
+    }catch(error) {
+        console.log("Something went wrong while editing the policy", error)
+        res.status(401).json({
+            message: apiResponseMsgs[400],
+            error: "An unexpected error has occured while editing the policy. Please try again"
+        })
+    }
+}
+
+export const deletePolicyController = async(req: Request, res: Response): Promise<void> => {
+    try {
+        const policy_id = Number(req.params.id);
+        const isMatch = await db.select().from(policiesTable).where(eq(policiesTable.id, policy_id));
+
+        if(isMatch?.length === 0){
+            console.log("No such group exists in the database")
+            res.status(401).json({
+                message:apiResponseMsgs[400],
+                error: "Group id invalid. Please choose the correct group"
+            });
+        }
+
+        await db.delete(policiesTable).where(eq(policiesTable.id, policy_id));
+        res.status(200).json({
+            message: apiResponseMsgs[200],
+            data: ""
+        });
+
+    }catch(error) {
+        console.log("Something went wrong while deleting the policy", error)
+        res.status(500).json({
+            message: apiResponseMsgs[500],
+            error: "An unexpected error has occured while deleting the policy. Please try again"
+        })
+    }
+}
 //policy controllers end here

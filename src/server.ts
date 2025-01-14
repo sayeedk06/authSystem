@@ -1,4 +1,5 @@
 import express from "express";
+import dotenv from 'dotenv'
 import bodyParser from "body-parser";
 import authRoutes from "./routes/auth.js";
 import userRoutes from "./routes/users.js";
@@ -7,7 +8,7 @@ import userRoutes from "./routes/users.js";
 const app = express();
 const PORT = 3000;
 
-
+dotenv.config()
 
 //middlewares
 app.use(express.json());

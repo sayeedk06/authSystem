@@ -24,9 +24,10 @@ const apiRoutes = {
     //Access Policies
     GET_ACCCESS_LIST: "/access/list",
     GET_POLICIES: "/policies/",
-    GET_POLICY: "policies/{id}",
+    GET_POLICY: "/policies/:id",
     CREATE_POLICY: "/policies/",
-    EDIT_POLICY: "policies/:id",
+    EDIT_POLICY: "/policies/:id",
+    DELETE_POLICY: "/policies/:id",
 
     
     //database
