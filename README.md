@@ -1,4 +1,3 @@
-cat <<EOT > README.md
 # Authentication System API
 
 This is a Node.js-based Authentication System API built with Express, Drizzle, and JWT (JSON Web Tokens). The API provides endpoints for user authentication, user management, group management, and access control policies. Below is a detailed guide on how to set up, use, and understand the API.
@@ -171,9 +170,9 @@ Contributions are welcome! Please follow these steps:
 The API uses JWT for authentication. After a successful login, a JWT token is returned, which must be included in the `Authorization` header for protected routes.
 
 Example:
-\`\`\`http
+```http
 Authorization: Bearer <JWT_TOKEN>
-\`\`\`
+```
 
 ---
 
@@ -183,30 +182,6 @@ To populate the database with initial data (e.g., users, groups, policies), you 
 
 ---
 
-## Environment Variables
-
-Create a `.env` file in the root directory with the following variables:
-
-\`\`\`env
-PORT=3000
-DATABASE_URL=postgres://user:password@localhost:5432/database_name
-JWT_SECRET=your_jwt_secret_key
-JWT_EXPIRES_IN=1h
-\`\`\`
-
----
-
-## Contributing
-
-Contributions are welcome! Please follow these steps:
-
-1. Fork the repository.
-2. Create a new branch (\`git checkout -b feature/YourFeatureName\`).
-3. Commit your changes (\`git commit -m 'Add some feature'\`).
-4. Push to the branch (\`git push origin feature/YourFeatureName\`).
-5. Open a pull request.
-
----
 
 ## License
 
