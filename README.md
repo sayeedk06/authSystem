@@ -113,7 +113,7 @@ JWT_SECRET="your-secret-key"
 | PUT | `/groups/:id` | Update a group |
 | DELETE | `/groups/:id` | Delete a group |
 
-### Access Policies
+### Access Policies (ONGOING)
 | Method | Endpoint | Description |
 |--------|---------|-------------|
 | GET | `/access/list` | Get access list |
@@ -188,12 +188,5 @@ To populate the database with initial data (e.g., users, groups, policies), you 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
 
 ---
-
-For any questions or issues, please open an issue on the GitHub repository.
-EOT
-
-## Contact
-For any questions or issues, reach out via:
-- GitHub: [yourusername](https://github.com/yourusername)
 
 ---
